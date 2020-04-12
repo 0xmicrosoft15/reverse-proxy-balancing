@@ -92,7 +92,7 @@ RUN \
 
 WORKDIR /app
 
-RUN pipenv install --dev
+RUN pipenv install --dev # && pipenv graph # for debugging
 
 RUN chown -R www-data . && \
     apt-get remove -y \
