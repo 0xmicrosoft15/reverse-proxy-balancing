@@ -117,7 +117,7 @@ class JussiInteralError(Exception):
                  jrpc_request: JrpcRequest=None,
                  jrpc_response: JrpcResponse=None,
                  exception: Exception = None,
-                 log_traceback: bool = False,
+                 log_traceback: bool = True,
                  error_logger: logging.Logger = None,
                  **kwargs) -> None:
 
