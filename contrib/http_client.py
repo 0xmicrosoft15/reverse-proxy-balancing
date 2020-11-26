@@ -80,7 +80,7 @@ class SimpleSteemAPIClient(object):
                  tcp_keepalive=True,
                  **kwargs):
         url = url or os.environ.get('STEEMD_HTTP_URL',
-                                    'https://steemd.steemitdev.com')
+                                    'https://api.hive.blog')
         self.url = url
         self.hostname = urlparse(url).hostname
         self.return_with_args = kwargs.get('return_with_args', False)

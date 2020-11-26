@@ -29,7 +29,7 @@ Content-Type: application/json
 ```
 
 ### Default Namespace
-Any json-rpc method with no period in the method name is presumed to be in the "steemd" namespace and will be forwarded to a steemd endpoint:
+Any json-rpc method with no period in the method name is presumed to be in the "hived" namespace and will be forwarded to a hived endpoint:
 
 ```
 POST / HTTP/1.1

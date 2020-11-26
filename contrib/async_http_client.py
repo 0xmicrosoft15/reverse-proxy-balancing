@@ -93,7 +93,7 @@ def chunkify(iterable, chunksize=3000):
 class AsyncClient(object):
     def __init__(self, *, url=None, **kwargs):
         self.url = url or os.environ.get(
-            'STEEMD_HTTP_URL', 'https://steemd.steemitdev.com')
+            'STEEMD_HTTP_URL', 'https://api.hive.blog')
         self.kwargs = kwargs
         self.session = kwargs.get('session', None)
         self.connector = get_in(kwargs, ['session', 'connector'])
@@ -234,7 +234,7 @@ class AsyncClient(object):
 
     @property
     def concurrent_connections(self):
-        """number of tcp connections to steemd"""
+        """number of tcp connections to hived"""
         return self.connector.limit
 
     @property

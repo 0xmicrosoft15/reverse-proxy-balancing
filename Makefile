@@ -132,8 +132,8 @@ mypy: ## run mypy type checking on python files
 	http --json :9000/ id:=1 jsonrpc=2.0 method=get_block params:='[1000]'
 
 
-.PHONY: test-local-steemd-calls
-test-local-steemd-calls:
+.PHONY: test-local-hived-calls
+test-local-hived-calls:
 	pipenv run pytest -vv tests/test_responses.py::test_steemd_responses --jussiurl http://localhost:9000
 
 .PHONY: test-local-appbase-calls
@@ -154,7 +154,7 @@ test-live-staging-appbase-calls:
 
 .PHONY: test-live-prod-appbase-calls
 test-live-prod-appbase-calls:
-	pipenv run pytest --maxfail=1 tests/test_responses.py::test_appbase_responses --jussiurl https://api.steemit.com
+	pipenv run pytest --maxfail=1 tests/test_responses.py::test_appbase_responses --jussiurl https://api.hive.blog
 
 
 ./perf:
