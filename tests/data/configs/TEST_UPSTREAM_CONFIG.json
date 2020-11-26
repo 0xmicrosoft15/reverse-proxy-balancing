@@ -8,7 +8,7 @@
       "urls": [
         [
           "hived",
-          "https://api.hive.blog"
+          "wss://steemd.steemitdev.com"
         ]
       ],
       "ttls": [

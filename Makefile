@@ -154,7 +154,7 @@ test-live-staging-appbase-calls:
 
 .PHONY: test-live-prod-appbase-calls
 test-live-prod-appbase-calls:
-	pipenv run pytest --maxfail=1 tests/test_responses.py::test_appbase_responses --jussiurl https://api.hive.blog
+	pipenv run pytest --maxfail=1 tests/test_responses.py::test_appbase_responses --jussiurl https://api.steemit.com
 
 
 ./perf:

@@ -1139,7 +1139,7 @@ URN_TEST_REQUEST_DICTS = [
         'params': _empty
     },
         'hived.database_api.get_dynamic_global_properties',
-        'https://api.hive.blog',
+        'wss://steemd.steemitdev.com',
         1,
         3
     ),
@@ -1157,7 +1157,7 @@ URN_TEST_REQUEST_DICTS = [
         'params': []
     },
         'hived.database_api.get_dynamic_global_properties.params=[]',
-        'https://api.hive.blog',
+        'wss://steemd.steemitdev.com',
         1,
         3
     ),
@@ -1175,7 +1175,7 @@ URN_TEST_REQUEST_DICTS = [
         'params': [1]
     },
         'hived.database_api.get_block.params=[1]',
-        'https://api.hive.blog',
+        'wss://steemd.steemitdev.com',
         -2,
         3
     ),
@@ -1217,7 +1217,7 @@ URN_TEST_REQUEST_DICTS = [
         'params': []
     },
         'hived.database_api.get_account_count.params=[]',
-        'https://api.hive.blog',
+        'wss://steemd.steemitdev.com',
         3,
         3
     ),
@@ -1235,7 +1235,7 @@ URN_TEST_REQUEST_DICTS = [
         'params': ["", ""]
     },
         'hived.login_api.login.params=["",""]',
-        'https://api.hive.blog',
+        'wss://steemd.steemitdev.com',
         -1,
         3
     ),
@@ -1252,7 +1252,7 @@ URN_TEST_REQUEST_DICTS = [
         'params': []
     },
         'hived.database_api.find_accounts.params=[]',
-        'https://api.hive.blog',
+        'wss://steemd.steemitdev.com',
         3,
         3
     ),
