@@ -1,7 +1,7 @@
 {
   "id": "https://schema.steemitdev/blockchain/block.json",
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "Steem Blockchain Schema",
+  "title": "Hive Blockchain Schema",
   "type": "object",
   "properties": {
     "transaction_merkle_root": {

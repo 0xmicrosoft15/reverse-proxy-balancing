@@ -1125,7 +1125,7 @@ URN_TEST_REQUEST_DICTS = [
         3
     ),
 
-    # -------- STEEMD BARE METHOD ----------------
+    # -------- HIVED BARE METHOD ----------------
     # hived, bare method, no params
     ({
         'id': 5020,
@@ -1200,7 +1200,7 @@ URN_TEST_REQUEST_DICTS = [
     ),
 
 
-    # -------- STEEMD METHOD=CALL ----------------
+    # -------- HIVED METHOD=CALL ----------------
 
 
     # hived, method=call, empty params list
