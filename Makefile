@@ -132,8 +132,8 @@ mypy: ## run mypy type checking on python files
 	http --json :9000/ id:=1 jsonrpc=2.0 method=get_block params:='[1000]'
 
 
-.PHONY: test-local-steemd-calls
-test-local-steemd-calls:
+.PHONY: test-local-hived-calls
+test-local-hived-calls:
 	pipenv run pytest -vv tests/test_responses.py::test_steemd_responses --jussiurl http://localhost:9000
 
 .PHONY: test-local-appbase-calls
