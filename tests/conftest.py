@@ -103,7 +103,7 @@ def jrpc_response_schema():
 
 @pytest.fixture
 def steemd_response_schema():
-    with open(os.path.join(SCHEMA_DIR, 'steemd-response-schema.json')) as f:
+    with open(os.path.join(SCHEMA_DIR, 'hived-response-schema.json')) as f:
         return ujson.load(f)
 
 
@@ -116,7 +116,7 @@ with open(os.path.join(CONFIGS_DIR, 'TEST_UPSTREAM_CONFIG.json')) as f:
 # ------------------------
 
 def steemd_requests_and_responses():
-    with open(os.path.join(REQS_AND_RESPS_DIR, 'steemd.json')) as f:
+    with open(os.path.join(REQS_AND_RESPS_DIR, 'hived.json')) as f:
         return ujson.load(f)
 
 
@@ -1125,25 +1125,25 @@ URN_TEST_REQUEST_DICTS = [
         3
     ),
 
-    # -------- STEEMD BARE METHOD ----------------
-    # steemd, bare method, no params
+    # -------- HIVED BARE METHOD ----------------
+    # hived, bare method, no params
     ({
         'id': 5020,
         'jsonrpc': '2.0',
         'method': 'get_dynamic_global_properties'
     },
         {
-        'namespace': 'steemd',
+        'namespace': 'hived',
         'api': 'database_api',
         'method': 'get_dynamic_global_properties',
         'params': _empty
     },
-        'steemd.database_api.get_dynamic_global_properties',
+        'hived.database_api.get_dynamic_global_properties',
         'wss://steemd.steemitdev.com',
         1,
         3
     ),
-    # steemd, bare method, empty params list
+    # hived, bare method, empty params list
     ({
         'id': 5021,
         'jsonrpc': '2.0',
@@ -1151,17 +1151,17 @@ URN_TEST_REQUEST_DICTS = [
         'params': []
     },
         {
-        'namespace': 'steemd',
+        'namespace': 'hived',
         'api': 'database_api',
         'method': 'get_dynamic_global_properties',
         'params': []
     },
-        'steemd.database_api.get_dynamic_global_properties.params=[]',
+        'hived.database_api.get_dynamic_global_properties.params=[]',
         'wss://steemd.steemitdev.com',
         1,
         3
     ),
-    # steemd, bare method, params list
+    # hived, bare method, params list
     ({
         'id': 5022,
         'jsonrpc': '2.0',
@@ -1169,18 +1169,18 @@ URN_TEST_REQUEST_DICTS = [
         'params': [1]
     },
         {
-        'namespace': 'steemd',
+        'namespace': 'hived',
         'api': 'database_api',
         'method': 'get_block',
         'params': [1]
     },
-        'steemd.database_api.get_block.params=[1]',
+        'hived.database_api.get_block.params=[1]',
         'wss://steemd.steemitdev.com',
         -2,
         3
     ),
 
-    # steemd, bare_method, account transfer url
+    # hived, bare_method, account transfer url
     ({
         "id": 5023,
         "jsonrpc": "2.0",
@@ -1188,22 +1188,22 @@ URN_TEST_REQUEST_DICTS = [
         "params": ["/@justinw/transfers"]
     },
         {
-        'namespace': 'steemd',
+        'namespace': 'hived',
         'api': 'database_api',
         'method': 'get_state',
         'params': ["/@justinw/transfers"]
     },
-        'steemd.database_api.get_state.params=["\/@justinw\/transfers"]',
+        'hived.database_api.get_state.params=["\/@justinw\/transfers"]',
         'account_transfer_url',
         1,
         3
     ),
 
 
-    # -------- STEEMD METHOD=CALL ----------------
+    # -------- HIVED METHOD=CALL ----------------
 
 
-    # steemd, method=call, empty params list
+    # hived, method=call, empty params list
     ({
         'id': 5024,
         'jsonrpc': '2.0',
@@ -1211,17 +1211,17 @@ URN_TEST_REQUEST_DICTS = [
         'params': ['database_api', 'get_account_count', []]
     },
         {
-        'namespace': 'steemd',
+        'namespace': 'hived',
         'api': 'database_api',
         'method': 'get_account_count',
         'params': []
     },
-        'steemd.database_api.get_account_count.params=[]',
+        'hived.database_api.get_account_count.params=[]',
         'wss://steemd.steemitdev.com',
         3,
         3
     ),
-    # steemd numeric apis
+    # hived numeric apis
     ({
         'id': 5025,
         'jsonrpc': '2.0',
@@ -1229,12 +1229,12 @@ URN_TEST_REQUEST_DICTS = [
         'params': [1, "login", ["", ""]]
     },
         {
-        'namespace': 'steemd',
+        'namespace': 'hived',
         'api': 'login_api',
         'method': 'login',
         'params': ["", ""]
     },
-        'steemd.login_api.login.params=["",""]',
+        'hived.login_api.login.params=["",""]',
         'wss://steemd.steemitdev.com',
         -1,
         3
@@ -1246,17 +1246,17 @@ URN_TEST_REQUEST_DICTS = [
         'params': [0, "find_accounts", []]
     },
         {
-        'namespace': 'steemd',
+        'namespace': 'hived',
         'api': 'database_api',
         'method': 'find_accounts',
         'params': []
     },
-        'steemd.database_api.find_accounts.params=[]',
+        'hived.database_api.find_accounts.params=[]',
         'wss://steemd.steemitdev.com',
         3,
         3
     ),
-    # steemd, method=call, account transfer url
+    # hived, method=call, account transfer url
     ({
         "id": 5027,
         "jsonrpc": "2.0",
@@ -1264,12 +1264,12 @@ URN_TEST_REQUEST_DICTS = [
         "params": ["database_api", "get_state", [r"/@justinw/transfers"]]
     },
         {
-        'namespace': 'steemd',
+        'namespace': 'hived',
         'api': 'database_api',
         'method': 'get_state',
         'params': ["/@justinw/transfers"]
     },
-        'steemd.database_api.get_state.params=["\/@justinw\/transfers"]',
+        'hived.database_api.get_state.params=["\/@justinw\/transfers"]',
         'account_transfer_url',
         1,
         3
