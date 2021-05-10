@@ -74,7 +74,7 @@ Each urls key can have multiple endpoints for each namespace. For example:
 ```
 {
   "urls":[
-    ["appbase", "https://api.steemitdev.com"]
+    ["appbase", "https://api.hive.blog"]
   ]
 }
 ```
@@ -84,9 +84,9 @@ Each urls key can have multiple endpoints for each namespace. For example:
 ```
 {
   "urls":[
-    ["appbase","https://api.steemitdev.com"],
-    ["appbase.condenser_api.get_account_history","https://api-for-account-history.steemitdev.com"],
-    ["appbase.condenser_api.get_ops_in_block","https://api-for-get-ops-in-block.steemitdev.com"]
+    ["appbase","https://api.hive.blog"],
+    ["appbase.condenser_api.get_account_history","https://api-for-account-history.hive.blog"],
+    ["appbase.condenser_api.get_ops_in_block","https://api-for-get-ops-in-block.hive.blog"]
   ]
 }
 ```
@@ -147,4 +147,4 @@ Certain features of jussi can be configured using environment variables. If you 
 
 ## Additional documentation
 
-For more indepth documentation on jussi including examples, check out the section on it in the steem dev portal: https://developers.steem.io/services/#services-jussi
+For more indepth documentation on jussi including examples, check out the section on it in the steem dev portal: https://developers.hive.io/services/#services-jussi
