@@ -12,7 +12,7 @@ Method Settings
 - For readabilty/writabilty, there are shorthand variables for these 'special' TTL values:
    - `NO_EXPIRE` == 0
    - `NO_CACHE` == -1
-   - `DEFAULT_EXPIRE_IF_IRREVERSIBLE` == -2
+   - `EXPIRE_IF_REVERSIBLE` == -2
 
 """
 
@@ -21,9 +21,10 @@ from enum import Enum
 
 class TTL(Enum):
     DEFAULT_TTL = 3
+    EXTENDED_TTL = 9
     NO_EXPIRE = None
     NO_CACHE = -1
-    DEFAULT_EXPIRE_IF_IRREVERSIBLE = -2
+    EXPIRE_IF_REVERSIBLE = -2
 
     # pylint: disable=no-else-return
     def __eq__(self, other: int) -> bool:
