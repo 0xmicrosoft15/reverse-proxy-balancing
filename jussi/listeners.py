@@ -74,6 +74,7 @@ def setup_listeners(app: WebApp) -> WebApp:
             write_limit=args.websocket_write_limit
         )
         for url in upstream_urls:
+            print("********url=",url)
             if url.startswith('ws'):
                 logger.info('creating websocket pool',
                             pool_min_size=args.websocket_pool_minsize,
