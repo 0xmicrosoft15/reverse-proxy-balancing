@@ -21,7 +21,8 @@ def jsonrpc_cache_key(single_jsonrpc_request: SingleJrpcRequest) -> str:
 
 
 def irreversible_ttl(jsonrpc_response: dict=None,
-                     last_irreversible_block_num: int=None) -> TTL:
+                     last_irreversible_block_num: int=None,
+                     request: SingleJrpcRequest=None) -> TTL:
     if not jsonrpc_response:
         return TTL.NO_CACHE
     if not isinstance(last_irreversible_block_num, int):
@@ -30,12 +31,21 @@ def irreversible_ttl(jsonrpc_response: dict=None,
         return TTL.NO_CACHE
     try:
         jrpc_block_num = block_num_from_jsonrpc_response(jsonrpc_response)
-        return TTL.DEFAULT_TTL
+        if jrpc_block_num > last_irreversible_block_num:
+            return TTL.EXTENDED_TTL
+        else:
+            return TTL.NO_EXPIRE
     except Exception as e:
+        if request is not None:
+            request_string = request.json()
+        else:
+            request_string = 'None'
         logger.warning(
             'Unable to cache using last irreversible block',
             e=e,
-            lirb=last_irreversible_block_num)
+            lirb=last_irreversible_block_num,
+            request_string=request_string,
+            jsonrpc_response=jsonrpc_response)
     return TTL.NO_CACHE
 
 
