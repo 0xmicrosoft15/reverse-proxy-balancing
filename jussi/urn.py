@@ -89,17 +89,17 @@ def _parse_jrpc(single_jsonrpc_request) -> dict:
     try:
         method = single_jsonrpc_request['method']
         params = single_jsonrpc_request.get('params', _empty)
+        #use regex to determine the real namespace, api, method, and params of the request
         matched = _parse_jrpc_method(method)
-
-        if matched.get('appbase_api'):
+        if matched.get('appbase_api'): #e.g. condenser_api.method
             return {
                 'namespace': 'appbase',
                 'api': matched['appbase_api'],
                 'method': matched['appbase_method'],
                 'params': params
             }
-        if matched.get('namespace'):
-            if matched['namespace'] == 'jsonrpc':
+        if matched.get('namespace'): #e.g. steemd.condesner_api.method or jsonrpc.method
+            if matched['namespace'] == 'jsonrpc': #if jsonrpc namespace, then use appbase namespace and jsonrpc as api
                 return {
                     'namespace': 'appbase',
                     'api': 'jsonrpc',
@@ -112,9 +112,10 @@ def _parse_jrpc(single_jsonrpc_request) -> dict:
                 'method': matched['method'],
                 'params': params
             }
-        if matched['bare_method']:
+        if matched['bare_method']: #e.g. method
             method = matched['bare_method']
 
+            #if method != call, then it is a steemd.database_api.method call
             if method != 'call':
                 return {
                     'namespace': 'steemd',
@@ -123,16 +124,21 @@ def _parse_jrpc(single_jsonrpc_request) -> dict:
                     'params': params
                 }
 
+            #method = call, so params contains info on actual api, method, and parameters
+            #probably should be if 2 parameters, then assume no actual parameters
             if len(params) != 3:
                 namespace = 'appbase'
                 api, method = params
                 _params = _empty
-            else:
+            else: #if three parameters
+                #remove api and method to get actual parameters
                 api, method, _params = params
+                #if (api is  condenser_api or jsonrpc) or actual parameters are in a dictionary, then appbase namespace
                 if api == 'condenser_api' or isinstance(_params, dict) or api == 'jsonrpc':
                     namespace = 'appbase'
                 else:
                     namespace = 'steemd'
+            #if api is an integer, map from api integer to api string
             if isinstance(api, int):
                 try:
                     api = STEEMD_NUMERIC_API_MAPPING[api]
@@ -162,6 +168,7 @@ def _parse_jrpc(single_jsonrpc_request) -> dict:
 
 def from_request(single_jsonrpc_request: dict) -> URN:
     parsed = _parse_jrpc(single_jsonrpc_request)
+    #sort parameters for better caching if a dictionary
     if isinstance(parsed['params'], dict):
         parsed['params'] = dict(sorted(parsed['params'].items()))
     return URN(parsed['namespace'],
