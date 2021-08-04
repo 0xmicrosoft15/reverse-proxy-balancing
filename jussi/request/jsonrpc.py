@@ -67,6 +67,7 @@ class JSONRPCRequest:
         self.timings = timings
 
     def to_dict(self):
+        """return a dictionary of self.id, self.jsonrpc, self.method, self.params"""
         return {k: getattr(self, k) for k in
                 ('id', 'jsonrpc', 'method', 'params') if getattr(self, k) is not _empty}
 
@@ -74,6 +75,7 @@ class JSONRPCRequest:
         return dumps(self.to_dict(), ensure_ascii=False)
 
     def to_upstream_request(self, as_json=True) -> Union[str, dict]:
+        """helper to update call ids when we create multiple upstream calls from a batch request"""
         jrpc_dict = self.to_dict()
         jrpc_dict.update({'id': self.upstream_id})
         if as_json:
@@ -89,17 +91,21 @@ class JSONRPCRequest:
 
     @property
     def upstream_id(self) -> int:
+        """compute upstream id from original id + batch_index"""
         return int(self.jussi_request_id) + self.batch_index
 
     @property
     def translated(self) -> bool:
+        """returns true if the JSONRPCRequest has been translated to appbase format"""
         return self.original_request is not None
 
     def __hash__(self) -> int:
+        """generate hash from urn"""
         return hash(self.urn)
 
     @staticmethod
     def translate_to_appbase(request: SingleRawRequest, urn) -> dict:
+        """Convert to 'method':'call', 'params]:['condenser_api', method_name, [method params]]"""
         params = urn.params
         if params is _empty:
             params = []
@@ -114,14 +120,19 @@ class JSONRPCRequest:
 # pylint: disable=no-member
 
 def from_http_request(http_request, batch_index: int, request: SingleRawRequest):
+    """Convert a SingleRawQuest to JSONRPCRequest, determining upstream server and translating to appbase format('method':'call') if upstream says to"""
     from ..urn import from_request as urn_from_request
     from ..upstream import Upstream
 
+    # Determine upstream server (hived, hivemind, etc) from available upstream mappings and urn from request
     upstreams = http_request.app.config.upstreams
+    #convert a raw request to a urn using regex to map multiple json styles of request
     urn = urn_from_request(request)  # type:URN
+    #determine upstream server, cache time, and timeout value for the urn using upstream mapping
     upstream = Upstream.from_urn(urn, upstreams=upstreams)  # type: Upstream
     original_request = None
 
+    # If upstream says to translate this urn, do it and keep original request too
     if upstreams.translate_to_appbase(urn):
         original_request = request
         request = JSONRPCRequest.translate_to_appbase(request, urn)
