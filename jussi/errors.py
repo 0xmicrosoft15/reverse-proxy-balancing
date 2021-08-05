@@ -127,7 +127,10 @@ class JussiInteralError(Exception):
         self.jsonrpc_request = jrpc_request
         self.jsonrpc_response = jrpc_response
         self.exception = exception
-        self.log_traceback = http_request.app.config.args.log_traceback
+        if http_request:
+            self.log_traceback = http_request.app.config.args.log_traceback
+        else:
+            self.log_traceback = False
         self.logger = error_logger or logger
         self.kwargs = kwargs
 
@@ -271,12 +274,13 @@ class RequestTimeoutError(JsonRpcError):
 
     def to_dict(self):
         data = super().to_dict()
-        try:
-            timings = self.timings()
-            if timings:
-                data.update(**timings)
-        except Exception as e:
-            logger.info('error adding timing data to RequestTimeoutError', e=e)
+        #Apparently unfinished code, there is no timings() function, should be fixed later I guess
+        #try:
+        #    timings = self.timings()
+        #    if timings:
+        #        data.update(**timings)
+        #except Exception as e:
+        #    logger.info('error adding timing data to RequestTimeoutError', e=e)
         return data
 
 
@@ -286,12 +290,13 @@ class ResponseTimeoutError(JsonRpcError):
 
     def to_dict(self):
         data = super().to_dict()
-        try:
-            timings = self.timings()
-            if timings:
-                data.update(**timings)
-        except Exception as e:
-            logger.info('error adding timing data to RequestTimeoutError', e=e)
+        #Apparently unfinished code, there is no timings() function, should be fixed later I guess
+        #try:
+        #    timings = self.timings()
+        #    if timings:
+        #        data.update(**timings)
+        #except Exception as e:
+        #    logger.info('error adding timing data to RequestTimeoutError', e=e)
         return data
 
       
