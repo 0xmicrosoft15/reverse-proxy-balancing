@@ -6,23 +6,23 @@
     },
     "upstreams": [
       {
-        "name": "steemd",
+        "name": "hived",
         "translate_to_appbase": true,
         "urls": [
           [
-            "steemd",
-            "https://your.steemd.url"
+            "hived",
+            "https://your.hived.url"
           ]
         ],
         "ttls": [
           [
-            "steemd",
+            "hived",
             3
           ]
         ],
         "timeouts": [
           [
-            "steemd",
+            "hived",
             3
           ]
         ]
@@ -32,19 +32,19 @@
         "urls": [
           [
             "appbase",
-            "https://your.steemd.url"
+            "https://your.hived.url"
           ],
           [
             "appbase.account_history_api",
-            "https://your.account.history.steemd.url"
+            "https://your.account.history.hived.url"
           ],
           [
             "appbase.condenser_api.get_account_history",
-            "https://your.account.history.steemd.url"
+            "https://your.account.history.hived.url"
           ],
           [
             "appbase.condenser_api.get_ops_in_block",
-            "https://your.account.history.steemd.url"
+            "https://your.account.history.hived.url"
           ],
           [
             "appbase.condenser_api.get_followers",
@@ -124,19 +124,19 @@
           ],
           [
             "appbase.condenser_api.get_state.params=['witnesses']",
-            "https://your.account.history.steemd.url"
+            "https://your.account.history.hived.url"
           ],
           [
             "appbase.condenser_api.get_state.params=['/witnesses']",
-            "https://your.account.history.steemd.url"
+            "https://your.account.history.hived.url"
           ],
           [
             "appbase.condenser_api.get_state.params=['/~witnesses']",
-            "https://your.account.history.steemd.url"
+            "https://your.account.history.hived.url"
           ],
           [
             "appbase.condenser_api.get_state.params=['~witnesses']",
-            "https://your.account.history.steemd.url"
+            "https://your.account.history.hived.url"
           ],
           [
             "appbase.follow_api",

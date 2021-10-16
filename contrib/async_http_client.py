@@ -234,7 +234,7 @@ class AsyncClient(object):
 
     @property
     def concurrent_connections(self):
-        """number of tcp connections to steemd"""
+        """number of tcp connections to hived"""
         return self.connector.limit
 
     @property

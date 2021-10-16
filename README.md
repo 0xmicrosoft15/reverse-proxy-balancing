@@ -29,7 +29,7 @@ Content-Type: application/json
 ```
 
 ### Default Namespace
-Any json-rpc method with no period in the method name is presumed to be in the "steemd" namespace and will be forwarded to a steemd endpoint:
+Any json-rpc method with no period in the method name is presumed to be in the "hived" namespace and will be forwarded to a hived endpoint:
 
 ```
 POST / HTTP/1.1
@@ -147,4 +147,4 @@ Certain features of jussi can be configured using environment variables. If you 
 
 ## Additional documentation
 
-For more indepth documentation on jussi including examples, check out the section on it in the steem dev portal: https://developers.hive.io/services/#services-jussi
+For more indepth documentation on jussi including examples, check out the section on it in the Hive dev portal: https://developers.hive.io/services/#services-jussi
