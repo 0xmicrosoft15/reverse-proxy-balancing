@@ -88,7 +88,7 @@ class _Upstreams(object):
 
     @functools.lru_cache(8192)
     def url(self, request_urn) -> str:
-        # certain steemd.get_state paths must be routed differently
+        # certain hived.get_state paths must be routed differently
         if (request_urn.api in ['database_api', 'condenser_api']
                 and request_urn.method == 'get_state'
                 and isinstance(request_urn.params, list)
