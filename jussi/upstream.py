@@ -43,6 +43,7 @@ jsonschema.Draft4Validator.check_schema(UPSTREAM_SCHEMA)
 
 
 class _Upstreams(object):
+    """Maps and converts incoming requests to calls to upstream servers based on name(spaces) in jusii config file"""
     __NAMESPACES = None
     __URLS = None
     __TTLS = None
@@ -50,6 +51,7 @@ class _Upstreams(object):
     __TRANSLATE_TO_APPBASE = None
 
     def __init__(self, config, validate=True):
+        """Load config file and create namespaces"""
         upstream_config = config['upstreams']
         # CONFIG_VALIDATOR.validate(upstream_config)
         self.config = upstream_config
@@ -73,6 +75,7 @@ class _Upstreams(object):
             self.validate_urls()
 
     def __build_trie(self, key):
+        """builds a searchable trie by parsing a subset of config file specified by key"""
         trie = pygtrie.StringTrie(separator='.')
         for item in it.chain.from_iterable(c[key] for c in self.config):
             if isinstance(item, list):
@@ -88,7 +91,8 @@ class _Upstreams(object):
 
     @functools.lru_cache(8192)
     def url(self, request_urn) -> str:
-        # certain steemd.get_state paths must be routed differently
+        """return url for upstream server based on request_urn and URLS trie in config file"""
+        # certain hived.get_state paths must be routed differently
         if (request_urn.api in ['database_api', 'condenser_api']
                 and request_urn.method == 'get_state'
                 and isinstance(request_urn.params, list)
@@ -99,6 +103,11 @@ class _Upstreams(object):
                 return url
 
         _, url = self.__URLS.longest_prefix(str(request_urn))
+        #if request_urn.method == 'broadcast_transaction_synchronous':
+        #    if not url:
+        #        logger.error('***** no url for %s', str(request_urn))
+        #    else:
+        #        logger.warning('>>>>> %s to %s', str(request_urn), url)
         if not url:
             raise InvalidUpstreamURL(
                 url=url, reason='No matching url found', urn=str(request_urn))
@@ -120,6 +129,7 @@ class _Upstreams(object):
 
     @property
     def urls(self) -> frozenset:
+        """return a set of all defined upstream urls from config file"""
         return frozenset(u for u in self.__URLS.values())
 
     @property
@@ -127,6 +137,7 @@ class _Upstreams(object):
         return self.__NAMESPACES
 
     def translate_to_appbase(self, request_urn) -> bool:
+        """return true if urn's namespace is a translating namespace"""
         return request_urn.namespace in self.__TRANSLATE_TO_APPBASE
 
     def validate_urls(self):
@@ -155,6 +166,7 @@ class Upstream(NamedTuple):
     @classmethod
     @functools.lru_cache(4096)
     def from_urn(cls, urn, upstreams: _Upstreams=None):
+        """lookup upstream server url, time-to-live in cache, and timeout for a urn request based on config file"""
         return Upstream(upstreams.url(urn),
                         upstreams.ttl(urn),
                         upstreams.timeout(urn))
