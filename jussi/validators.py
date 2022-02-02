@@ -112,17 +112,17 @@ def is_valid_non_error_jussi_response(
 
 
 def is_get_block_request(request: JSONRPCRequest) -> bool:
-    return request.urn.namespace in ('steemd', 'appbase') and request.urn.method == 'get_block'
+    return request.urn.namespace in ('hived', 'appbase') and request.urn.method == 'get_block'
 
 
 def is_get_block_header_request(request: JSONRPCRequest) -> bool:
     return request.urn.namespace in (
-        'steemd', 'appbase') and request.urn.method == 'get_block_header'
+        'hived', 'appbase') and request.urn.method == 'get_block_header'
 
 
 def is_get_dynamic_global_properties_request(request: JSONRPCRequest) -> bool:
     return request.urn.namespace in (
-        'steemd', 'appbase') and request.urn.method == 'get_dynamic_global_properties'
+        'hived', 'appbase') and request.urn.method == 'get_dynamic_global_properties'
 
 
 def is_valid_get_block_response(
@@ -184,18 +184,22 @@ def limit_broadcast_transaction_request(request: JSONRPCRequest, limits=None) ->
         else:
             raise ValueError(
                 f'Unknown request params type: {type(request.urn.params)} urn:{request.urn}')
-        ops = [op for op in request_params['operations'] if op[0] == 'custom_json']
-        if not ops:
-            return
-        blacklist_accounts = set()
-        try:
-            blacklist_accounts = limits['accounts_blacklist']
-        except Exception as e:
-            logger.warning('using empty accounts_blacklist', e=e,
-                           jid=request.jussi_request_id, )
+        ops = []
+        for op in request_params['operations']:
+            if isinstance(op, list) and op[0] == 'custom_json':
+                ops.append(op)
+            if isinstance(op, dict) and op['type'] == 'custom_json':
+                ops.append(op)
+        if ops:
+            blacklist_accounts = set()
+            try:
+                blacklist_accounts = limits['accounts_blacklist']
+            except Exception as e:
+                logger.warning('using empty accounts_blacklist', e=e,
+                            jid=request.jussi_request_id, )
 
-        limit_custom_json_op_length(ops, size_limit=CUSTOM_JSON_SIZE_LIMIT)
-        limit_custom_json_account(ops, blacklist_accounts=blacklist_accounts)
+            limit_custom_json_op_length(ops, size_limit=CUSTOM_JSON_SIZE_LIMIT)
+            limit_custom_json_account(ops, blacklist_accounts=blacklist_accounts)
 
 
 def limit_custom_json_op_length(ops: list, size_limit=None):
