@@ -31,6 +31,8 @@ def irreversible_ttl(jsonrpc_response: dict=None,
         return TTL.NO_CACHE
     try:
         jrpc_block_num = block_num_from_jsonrpc_response(jsonrpc_response)
+        if jrpc_block_num is None:
+            return TTL.NO_CACHE
         if jrpc_block_num > last_irreversible_block_num:
             return TTL.EXTENDED_TTL
         else:
