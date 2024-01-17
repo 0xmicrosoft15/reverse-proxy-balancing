@@ -105,7 +105,7 @@ async def monitor(http_request: HTTPRequest) -> HTTPResponse:
         for url, pool in pools.items():
             data = {
                 'url': url,
-                'queue': pool._queue.qsize,
+                'queue': pool._queue.qsize(),
                 'in_use': len([ch._in_use for ch in pool._holders if ch._in_use is not None]),
                 'ws_read_q_sizes': [ch._con.messages.qsize() for ch in pool._holders if ch._con]
             }
