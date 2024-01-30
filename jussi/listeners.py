@@ -9,12 +9,22 @@ import aiohttp
 import async_timeout
 import ujson
 
+import os
+import json5
+
 from jussi.ws.pool import Pool
 
 from .cache import setup_caches
 from .typedefs import WebApp
 from .upstream import _Upstreams
 
+def load_config_file(config_filename):
+    extension = os.path.splitext(config_filename)
+    with open(config_filename) as f:
+        if extension == '.json5':
+            return json5.load(f)
+        else:
+            return json.load(f)
 
 def setup_listeners(app: WebApp) -> WebApp:
     # pylint: disable=unused-argument, unused-variable
@@ -34,8 +44,7 @@ def setup_listeners(app: WebApp) -> WebApp:
         logger.info('setup_upstreams', when='before_server_start')
         args = app.config.args
         upstream_config_file = args.upstream_config_file
-        with open(upstream_config_file) as f:
-            upstream_config = json.load(f)
+        upstream_config = load_config_file(upstream_config_file)
         try:
             app.config.upstreams = _Upstreams(upstream_config,
                                               validate=args.test_upstream_urls)
@@ -120,8 +129,7 @@ def setup_listeners(app: WebApp) -> WebApp:
         logger.info('setup_limits', when='before_server_start')
         args = app.config.args
         config_file = args.upstream_config_file
-        with open(config_file) as f:
-            config = json.load(f)
+        config = load_config_file(config_file)
         app.config.limits = config.get('limits', {'accounts_blacklist': set()})
 
         app.config.jsonrpc_batch_size_limit = args.jsonrpc_batch_size_limit
